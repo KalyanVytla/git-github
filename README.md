@@ -1,2 +1,17 @@
 # git-github
 this is for tutorial purpose.
+CBA
+https://track.testdome.com/f/a/u2X4pXBjPFK8dCwq_urImA~~/AABV8wA~/RgRhMfWCP0Q7aHR0cHM6Ly9hcHAudGVzdGRvbWUuY29tL3QvODU2OGNjNzcxZWZjNDlmYWI1OGI1YWQ2NWQwNDE5YmNXA3NwY0IKAEcCwlBf_0aj61IYa2FseWFudnl0bGExMTJAZ21haWwuY29tWAQAAAAA
+
+Almetrik paypal
+https://playground.altimetrik.com/
+
+Optimum's sol
+http://email.mail.adaface.com/c/eJxNjzFuhDAQRU9jSjQe22AXLkgQTaSkyAkGe8miNWAt3iBun8mmiTSa4uu_J_3owRhN1ewREMAqCS02YGpZa_tindWufwXVDkMvNCw0p5oiTRQuddiW6uodTYBMTjjGMMEoiYwL2MYYgwnSVclfS8m7UJ3Age84jv8KTihn_iBbrVVjO9391vZC9yLUsNJyEap_o3TSKrBhJNN6cvSRy7w8WGAQPrf0KPO27twYt_L-B3WRqru_PdHvsySSEnnF13MGi34Ayc1M1A
+
+Vitech
+https://click.pstmrk.it/2sm/www.hackerrank.com%2Ftests%2Fc9s74jcnj3n%2Flogin%3Fb%3DeyJ1c2VybmFtZSI6ImthbHlhbnZ5dGxhMTEyQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiZDk3NjJmOWQiLCJoaWRlIjp0cnVlLCJhY2NvbW1vZGF0aW9ucyI6eyJhZGRpdGlvbmFsX3RpbWVfcGVyY2VudCI6MH19/KfXkNA4/EDcI/XYBDLsf34d/aHJ3LXRlc3QtaW52aXRl
+
+Brillio
+https://tests.mettl.com/test-window-pi?key=whZz%2B5tMkcVsVaPJVAf51xc%2FSy3tTxMkjFzjMA0ULlzJUwrfTCX38zUT32qBMcCW
+
