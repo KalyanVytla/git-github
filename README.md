@@ -15,3 +15,6 @@ https://click.pstmrk.it/2sm/www.hackerrank.com%2Ftests%2Fc9s74jcnj3n%2Flogin%3Fb
 Brillio
 https://tests.mettl.com/test-window-pi?key=whZz%2B5tMkcVsVaPJVAf51xc%2FSy3tTxMkjFzjMA0ULlzJUwrfTCX38zUT32qBMcCW
 
+
+Role
+https://click.pstmrk.it/2sm/www.hackerrank.com%2Ftests%2F1sf5afgisc4%2Flogin%3Fb%3DeyJ1c2VybmFtZSI6ImthbHlhbnZ5dGxhMTEyQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiMDRjOGU0MWYiLCJoaWRlIjp0cnVlLCJhY2NvbW1vZGF0aW9ucyI6eyJhZGRpdGlvbmFsX3RpbWVfcGVyY2VudCI6MH19/VYgBGw4/EDcI/2WXeK5PdPx/aHJ3LXRlc3QtaW52aXRl
