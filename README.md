@@ -26,3 +26,6 @@ https://click.pstmrk.it/2sm/www.hackerrank.com%2Ftests%2F60sbpabsr13%2Flogin%3Fb
 
 https://www.hackerearth.com/challenges/test/test-draft-4-624/?login=a11918dfd9cd3d0e0393a09114b6c287
 https://app.codility.com/public-link/Norton-LifeLock-Inc-NortonLifeLock-Tech-Interview/
+Test URL- https://amcatglobal.aspiringminds.com
+User Name - kalyanvytla112@gmail.com
+Password - HS72!75Uth 
