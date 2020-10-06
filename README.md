@@ -32,3 +32,5 @@ Password - HS72!75Uth
 https://app.codility.com/test/SYDCKV-5C5/
 https://click.pstmrk.it/2sm/www.hackerrank.com%2Ftests%2F39jlcaife3c%2Flogin%3Fb%3DeyJ1c2VybmFtZSI6ImthbHlhbnZ5dGxhMTEyQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiOGFkYTNiYzMiLCJoaWRlIjp0cnVlLCJhY2NvbW1vZGF0aW9ucyI6eyJhZGRpdGlvbmFsX3RpbWVfcGVyY2VudCI6MH19/iByvGQ8/EDcI/xo1vAcdoTJ/aHJ3LXRlc3QtaW52aXRl
 https://apc01.safelinks.protection.outlook.com/?url=https:%2F%2Fattend.talview.com%2Fcandidate%2Fform%2Finvite%3Fc%3DmxBbwYOZty4~yc4QnHNdBcwVLePQedRL2fiPYsa6CcIxNjAxMjg2MTE1NzEzMzYzOA__%26verify%3Dfalse%26form_id%3D6784&data=02%7C01%7CRuchi.Brahmbhatt%40cognizant.com%7C9498769c71134b5e667308d86399d6e5%7Cde08c40719b9427d9fe8edf254300ca7%7C0%7C0%7C637368859987741962&sdata=OY0rjEo18FONA9jjNg%2BCHo4kLCyjsKa35iyPSfmWbzU%3D&reserved=0
+
+https://opportunities.mindtree.com/candidate/#!/login/a2FseWFudnl0bGExMTJAZ21haWwuY29t
