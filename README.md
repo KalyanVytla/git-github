@@ -35,3 +35,6 @@ https://apc01.safelinks.protection.outlook.com/?url=https:%2F%2Fattend.talview.c
 
 https://opportunities.mindtree.com/candidate/#!/login/a2FseWFudnl0bGExMTJAZ21haWwuY29t
 52qwrhbz
+
+
+https://onecognizantexternal.cognizant.com/?type=1&mail=kalyanvytla112@gmail.com
