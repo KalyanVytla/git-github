@@ -1,0 +1,875 @@
+
+===============================JAVASCRIPT=========================
+=>What is Javascript(JS)?
+ ->lightweight(small memory foot print)
+ ->interpreted(no compilation)
+ ->Object oriented language
+ ->First-class functions(Functions can used as values)
+ ->Scripting language(Instructions are written for runtime environment)
+  1.Javascript runs on web browser
+  2.Browser makes request to server and returns html response which is a peice of string. Browser converts those tags into Objects. i.e      
+    paragraph, dev etc..
+  3.That is DOM(Document Object Model)
+  4.HTML is static. HTML response can be included with JS.JS is dynamic. When browser gets it builds DOM tree. JS can be used to modify DOM.
+  
+=>Why Javascript(JS)?
+ ->Client side web development
+  1.native JS
+  2.Jquery
+  3.Angular,React,Ember...
+ ->Server side Development
+  1.NodeJS
+  2.Express
+  3.Browser Plugins
+  4.Desktop Applications
+  5.Mobile Applications
+  6.IOT Applications
+
+=>History of JS?
+ ->Created by Brendan Eich at Netscape
+ ->Created to complement JAVA
+ ->To make it easy for new people unlike JAVA which was considered professional language
+ ->Java is a compiled language where we have to make sure no errors present but JS forgive some mistakes.
+ ->Standardized  Language(ECMA)
+ ->latest version is ECMA Script 6.
+
+=>Variable Declaration
+  -> ex: var value=42
+             or
+		 var value;
+		 value=42;
+ ->JS doesnt have any types to declare.
+ ->Primitive types
+   1.Number
+   2.String
+   3.Boolean
+   
+=>undefined
+ ->As soon as when variable declared a value being assigned, it is undefined. Which is a value
+    var x;// value and type both are undefined and it is equal to var x=undefined;
+	
+=>null
+ ->var x=null;//null value is being assined
+ ->null is being assigned when value passes as blank not empty.
+ 
+=>Symbol
+ ->It has been added in ES6
+
+=>typeOf operator is used to identify the type of variable in JS.
+  var x=2;
+  console.log(typeof x);//number gets printed in console
+  x=false;
+  console.log(typeof x);//boolean gets printed in console
+  x=null;
+  console.log(typeof x);//object gets printed in console
+  
+  
+=>Type Coercion
+ ->JS is flexible with typing
+ ->Compiler or interpretor automatically coverts types when dealing with variables.
+ ->ex: 123+"4"//value is string 1234 
+ ->Values of all types have an associated Boolean value
+ ->conditional checks evaluated with non zero value  
+   ex-1: var a="value";
+       if(a){
+	     console.log("a is true");//gets printed
+         }
+       else{
+	    console.log("a is false")
+         }
+   ex-2: var a=null or undefined or "";
+       if(a){
+	     console.log("a is true");
+         }
+       else{
+	    console.log("a is false");//gets printed
+         }
+
+		 
+=> '===' operator
+ ->Always use === for precise checks(both value and type)
+ ->using == below if block gets executed and prints true
+     var a=10;
+     var b="10";
+     if(a == b){
+	   console.log(true)
+      }
+ ->using === below if block gets failed
+     var a=10;
+     var b="10";
+     if(a === b){
+	   console.log(true)
+	  }
+	 var c=10;
+	      if(a === c){
+	   console.log(true;//true gets printed
+	  }
+
+=> Objects in JS
+ ->In Java we create class based object
+ ->There are no classes in JS, They are free form. They are not bound to any class.
+   ex: var myObj={}; //inline
+ ->Objects typically consists of methods and properties.
+   myObj.prop= "Hello";
+   myObj.prop2=123;
+   console.log(myObj.prop2);
+ ->Object literal
+   var myObj= {
+		"prop": "Hello",
+		"prop2": 123
+		"prop3": true
+       };
+ ->There are no accesser limitations like public or private...
+ ->If we access property that is not part of class typically we get compilation error in JAVA, whereas in JS it gives undefined.
+   console.log(myObj.prop4);
+   
+=>Objects charecterstics 
+ ->Free form - not bound to any class
+ ->Object literal notation to create objects
+ ->Objects properties can be accessed directly i.e public by default
+ ->New properties can be added on objects directly
+ ->Objects can have methods
+ 
+=>Dot and Bracket notations
+ ->Accesing by using Dot notation
+    console.log(myObj.prop4);
+ ->Accesing by using Bracket notation
+    console.log(myObj["prop3"]);
+ ->Both works exactly the same way.
+ ->use [] notation when
+   1.Property name is a reserved word / invalid identifier.
+   2.Property name starts with a number.
+      var myObj= {
+		"prop": "Hello",
+		"prop2": 123,
+		"prop3": true,
+		"1"    :"one"
+       };
+      console.log(myObj.1);// not a valid syntax
+	  console.log(myObj[1]);//valid syntax and one gets printed
+   3.Property name is dynamic
+     var propertyName="prop";
+     console.log(myObj[propertyName]);
+ ->Dot and [] notation can be interchanged.
+ ->Dot notation is faster than [] notation.
+
+=>Nested Objects
+ ->Objetct is essentially an reference memory location on heap in most of the programming languages. In JS it is something similar where   
+   objets stores in browser memory. 
+     var myObj= {
+		"prop": "Hello",
+		"prop2": 123,
+		"prop3": true,
+		"objProp": {
+			"innerProp": "Inner property"
+		}
+      };
+     var propertyName="prop";
+     console.log(myObj.objProp.innerProp);
+	
+=> '===' Operator for Objects
+ -> In the below code both myObj, myObj1 both points to the same memory reference location
+    var myObj= {
+		"prop": "Hello",
+		}
+     myObj2=myObj;
+     console.log(myObj2.prop);
+     myObj2.prop="hello1";
+     if(myObj===myObj2){
+	 console.log("true");//prints true
+     }
+
+=>'undefined' vs 'null'
+  var person={
+		'firstName' : 'Kalyan',
+		'middleName': null,
+		'lastName'  : 'Vytla'
+      }
+    console.log(person.middleName)
+    
+=>Deleting properties with 'delete' Operator
+ -> var person={
+		'firstName' : 'Kalyan',
+		'age': 25,
+		'lastName'  : 'Vytla'
+        }
+      console.log(person.age);//25 gets printed
+      delete person.age;
+	  console.log(person);//{firstName: "Kalyan", age: 25, lastName: "Vytla"}
+      console.log(person.age);//undefined gets printed
+	  console.log(person); //{firstName: "Kalyan", lastName: "Vytla"}
+	  
+=>Arrays in JS
+-> Arrays can be defined inline
+   var myArray = [100, 200, 300];
+   console.log(myArray[0]);//first value gets printed
+   conslole.log(myArray[3]);//undefined gets printed
+   myArray[3]='kalyan';//way to add elements to array
+ ->Array length can calculated using length property
+   console.log(myArray.length);//4 gets printed
+ ->Property names are numbers in array
+    console.log(myArray["0"]);//it is same as myArray[0] 
+ ->Lenght of the array is calculated using last index value of array.
+   var myArray = [100, 200, 300];
+   myArray[400]='kalyan';
+   console.log(myArray);//length is 401 here
+ ->We can add string index to array 
+   var myArray = [100, 200, 300];
+   myArray["foo"]='kalyan';
+   console.log(myArray);//[100, 200, 300, foo: "kalyan"] and length is 3 here
+   
+=>Wrapper Objects
+ ->JS has predifined objects for all the primitive types like String, Number, Boolean,Null, undefined
+   var greeting = "hello world";
+   console.log(greeting.length);//here String object gets created dynamically just to make sure length property is available
+   console.log(typeof greeting);//
+   
+=>Functions in JS
+ ->It works same as function in other programming languages.
+   function sayHello(){
+	console.log('Hello');
+    }
+   sayHello();//this is where function gets invoked
+ ->JS supports Flexible argument counts
+    function sayHello(name, timeOfDay){
+	console.log('Hello '+name+' '+timeOfDay);
+    }
+    sayHello('kalyan');// "Hello kalyan undefined" gets printed
+	sayHello('kalyan','afternoon','evening');//here third argument gets ignored
+ ->Overloaded functions are not possible in JS since JS supports Flexible argument counts
+ ->Return values of functions
+   function sayHello(name, timeOfDay){
+	 return 'Hello '+name+' '+timeOfDay;
+   }
+   var returnValue=sayHello('kalyan','afternoon','evening');
+   console.log(returnValue); //"Hello kalyan afternoon" gets printed here
+ ->If function does't retun any value then return value equals undefined
+   function sayHello(name, timeOfDay){
+	return ;
+    }
+   var returnValue=sayHello('kalyan','afternoon','evening');
+   console.log(returnValue);
+   
+=>Function Expressions
+ ->The above code is function declaration which is one of the way to create a function
+ ->Function expression is another way to create a function(first class values-function itself is a value in JS)
+   var a='hello';
+   var f= function foo(){
+   console.log("hello");
+    }
+   f();//hello gets printed here
+   console.log(typeof f);// "function" gets printed here
+ ->Below are the two ways of creating a function
+   Declaration:
+    function foo(){
+	console.log("hello");
+    }
+   Expression:
+    var f= function foo(){
+	console.log("hello");
+    }
+ ->Anonymous function expression(creating a function which doesnt have a name)
+   var f= function (){
+	console.log("hello");
+    }
+   f();//"hello" gets printed here
+ -> The below code gives us the error when using Anonymous function expression
+    f=1;//here function expression value gets replaced with 1
+    f();//compilation error Uncaught TypeError: f is not a function
+
+=>Functions as arguments
+ ->We can pass one function as argument(s) to another function
+   Ex:1 var f= function (name){
+	    console.log("hello "+name);
+        }
+
+        var executor= function (fn){
+	    fn();
+        }
+        executor(f);//hello gets printed here
+   Ex:2 var f= function (){
+	    console.log("hello");
+        }
+
+        var executor= function (fn,n){
+	    fn(n);
+        }
+        executor(f, "kalyan");//"hello kalyan" gets printed here
+		
+=>Functions on Objects
+ -> We can create function exprssion as a variable in an object
+    var myObj={
+		"testProp"  : true
+    }
+
+    myObj.myMethod = function(){
+	console.log("function is object");
+    }
+    myObj.myMethod();//"function is object" gets printed 
+
+=>"this" keyword in JS
+ ->the below code executes fine but there is a problem here
+    var person = {
+		"firstName"  : "Kalyan",
+		"lastName" : "Vytla",
+		"getFullName" : function(){
+			return person.firstName+" "+person.lastName;
+		}
+     }
+    var fullName= person.getFullName();
+    console.log(fullName);// prints "Kalyan Vytla"
+ ->When we assign person object to another variable reference person2
+    var person2=person;
+    person={};
+	console.log(person2.getFullName());// undefined gets printed because person.getFullName is a not a valid method anymore
+ ->To eliminate hardcoding of object reference(person in this case), we need to go for "this" inside the method  
+    var person2=person;
+    person={};
+	console.log(person2.getFullName());//this time "Kalyan Vytla gets printed here"
+   
+=>Default function arguments
+ ->In c++ and JAVA we have concept called var args(...) to pass as number of arguments, same way JS has implicit argument called 'arguments'
+    var add = function(a,b){
+	console.log(arguments);
+	return a+b;
+   };
+   console.log(add(10,20,30,40));
+ ->Ex:
+    var add = function(){
+	var i;sum =0;
+	for( i=0;i<arguments.length;i++){
+		sum+=arguments[i];
+	}	
+	return sum;
+    };
+    console.log(add(10,20,30,40));//"100" gets printed
+ ->'arguments' is works like an array when accessing length and [] operator, but it is not an array. It is an object.
+ ->Another predifined argument is 'this'.
+
+=>Functions summary
+ ->Functions can be written in literal form
+ ->A function is a "value" that can be assigne to a variable
+ ->Can be called by passing in arguments
+ ->Functions are Objects!
+ ->Flexible argument counts
+ ->No function overloading
+ ->Default arguments
+ ->The "arguments" argument
+ 
+=>Array methods
+ ->Every array is an JS object
+ ->myAray.push(500);//when u want to add an element to the array at the last
+ ->myAray.pop(200);when u want to remove an element to the array at the last
+ ->myAray.shift();when u want to add an element to the array at the first
+ ->myAray.unshift();when u want to remove an element to the array at first
+ ->forEach method to iterate an array on each element
+   Ex-1: var myArray = [10,20, "hello", {}];
+       var myFunction = function(){
+       console.log("for an element");
+       };
+       myArray.forEach(myFunction);	/ "for an element" gets printed 4 times
+   Ex-2: var myArray = [10,20, "hello", {}];
+       var myFunction = function(item){
+       console.log("for an element "+item);
+       };
+       myArray.forEach(myFunction);	
+   Ex-3: var myFunction = function(item, index, array){
+	     console.log("for an element "+item+ " "+index+" "+array);
+         };
+
+=>Scopes and closures in JS
+ ->Scope in JS is similar concept like any other programming languages
+ ->Outer scope cannot access inner scope
+ ->Inner scope can access outer scope
+ ->JS Scoping is done using functions and doesnt create scopes using blocks for most of the cases
+   Ex-1: var name = "kalyan";
+         if (name==="kalyan"){
+	      var department= "engineering";
+          }
+         console.log(department);//prints "engineering" unlike other programming languages like JAVA..
+ ->Ex-2: var name = "kalyan";
+
+         function allocateDepartment(){
+	      if (name==="kalyan"){
+		  var department= "engineering";
+          }
+         }
+         allocateDepartment();
+         console.log(department);//ERROR since department is not in the scope
+		 
+=>IIFE(Immediately Invoked Function Expression)
+ ->Most of the cases in JS we should try to avoid to crate global variables, since if any other library uses the same nane it leads to name 
+   space clashes.
+    Ex: function myFn(){
+	    var a=10;
+	    var b=20;
+	    console.log(a+b);
+        }
+        myFn();//here browser creates the global variable myFn(), 
+ ->To avoid the name and execute that function we use IIFE
+    Ex: (function(){
+	     var a=10;
+	     var b=20;
+	     console.log(a+b);
+         })();
+		 
+=>Read and write operations in JS
+ ->It is important to understand how it happens
+  1.var a=10;//writing to a
+  2.console.log(a)//reading from a
+  3.b=a//reading from a and writing to b
+  4.RHS is read and LHS is write 
+ ->If you use a variable without declaring it, it is Ok to do write operation, it isn't Ok to do a read operation
+  1.foo=10;//Ok and variable gets created in the global scope
+  2.console.log(foo);not Ok
+ 
+=>Window Object in JS
+ ->When we run  JS on browser, the global object is Window
+ ->When we create a variable it gets created under window object
+   Ex: var def="kalyan";
+       console.log(window.def);//"kalyan" gets printed
+ ->It works for functions as well. here myFunc gets created under Window object in browser.
+    var abc=100;
+    var def="kalyan";
+    function myFunc(){
+	console.log("My Func");
+    }
+ ->Global object depends on runtime. It is different for different run times. If we execute JS on Node, the global object is "Global"
+ 
+ 
+=>Compilation and Interpretation
+ ->In the case of JS what we execute is JS source files unlike other programming languages like JAVA which executes intermediatery  
+   files(.class files)
+ ->Runtime executes the code directly without creating intermediatery file. But there is a compilation step where point to identify certain 
+   set of things before execute it.
+ ->Compilation step happens in a fraction of secon before interpretation happens in browser.
+   Compilation:
+      Ex-1: var a=10;//a gets registered in global scope
+            var b=10;//b gets registered in global scope
+            console.log(a+b);//here nothing to compile
+			
+	  Ex-2: var a=10;//a in global scope
+            function myFn(){ //myFn in global scope
+	          var b=20;      //b in scope of myFn
+	          var c=b;       //c in scope of myFn
+	          console.log(a+b);//ignored 
+              }
+            myFn();//ignored
+			
+	  Ex-3: var myName="Kalyan";// myName gets created in global scope
+            function greet(name){ //greet gets created in global scope and name in the scope of greet
+	          console.log("Hello "+name);//ignored
+             }
+            greet(myName);//ignored
+   Interpretation:
+      Ex-1: var myName="Kalyan";//value gets assigned to global scope variable myName
+            function greet(name){ //name gets accessed from the scope of greet
+	          console.log("Hello "+name);//here console gets accessed from global scope and name gets from greet scope
+             }
+            greet(myName);//greet and myName gets accessed from global scope
+			
+			
+=>Global scope problem        
+ -> Ex-1: console.log(a);//(Hoisting)undefined gets printed here because a is already avail in global scope
+          var a=10;
+    Ex-2: console.log(a);//error
+	
+=>Hoisting in JS
+ ->Declaration happens at compilation time and when runtime value gets assigned to it.
+
+=>Using strict mode
+ ->If you want disable JS engine to automatically create variable in global scope when you dont mention variable type in writing mode we 
+   use 
+   
+=>Closures in JS
+ ->A function which remebers its scope even if the function gets executed in a different scope where its declared
+ ->When function object gets created it remebers the scope chain.
+    var a=10;
+    function outer(){
+	var b=20;
+	var inner = function(){
+		console.log(a);
+		console.log(b);
+	};
+	return inner;
+    }
+   var innerFn = outer();
+   innerFn();//it remebers the value of b
+   
+=>Callbacks in JS
+ ->We dont have features called wait in JS, instead we have timeout function
+    var a=10;
+    setTimeout((b,c) => {
+ 	console.log(b)
+       }, 1000);
+
+    console.log("done");
+
+=>Module Pattern
+ ->It helps to create private data since JS doesnt have access specifier like private. It makes use of closures
+  Ex:  function createPerson(){
+	   var firstName="Kalyan";
+	   var lastName="Vytla";
+	   var retObj={
+			"getFirstName" : function(){
+				return firstName;
+			},
+	        "getLastName" : function(){
+		        return lastName;
+	        },
+	        "setFirstName" : function(name){
+		         firstName=name;
+	        },
+	        "getLasttName" : function(name){
+	        	lastName=name;
+	        }	
+	    };
+	   return retObj;
+       }
+      var Person=createPerson();
+      console.log(Person.getFirstName());
+      Person.setFirstName("phani");
+      console.log(Person.getFirstName());
+	  
+=>Closures in async call backs
+ ->In the below code by the time print function gests the value of i, the value of i reaches 10 and excution comes out of the loop 
+  Ex: var i;
+     var print=function(){
+	 console.log(i);
+      } 
+     for(i=0;i<10;i++){
+	 print();//0 to 9 gets printed
+	 setTimeout(print,1000);10 gets printed 10 times 
+     }
+ ->To resolve above issue we have to wrap the value of i inside a function since whenver function gets invoked multiple copy of i gets maintained
+   Ex: var i;
+       for(i=0;i<10;i++){
+	    (function(){
+	 	 var currentValueOfi=i;
+         setTimeout(function(){
+		 console.log(currentValueOfi);
+		 },1000);
+        })();
+       }
+	   
+=>Objects basics
+ ->Object can be created in multiple ways 
+   1.Inline
+     var myObj ={};
+   2.Object literal
+     var myObj = {
+	  "firstNamw"   :  "Kalyan",
+	  "lastName"    :  "Vytla"
+	  };
+   3.Objects can be accessed using . notation and [] notation
+   
+=>Creating Objects
+ ->If we have to create objects multiple times, the write it once and use it multiple times using functions
+    Ex:  function createEmployeeObject(firstName, lastName, gender, designation){
+	       var newObject = {};
+	       newObject.firstName =  firstName,
+	       newObject.lastName  =  lastName,
+	       newObject.gender    =  gender,
+	       newObject.designation= designation
+		   return newObject;
+          }
+         var emp2=createEmployeeObject("phani", "Vytla", "M", "Bank Manager");
+         console.log(emp2);
+		 
+=>Constructors in JS
+ ->Constructors are basically function which let us populate the object that we need to create.
+ ->Every time when we need to create a object we use new keyword and call a function which returns object.
+ ->The below two lines are common when creating an object in functions. 
+   var newObject = {};
+   return newObject;
+ ->To skip those two lines we create object using new keyword as constructor function
+    Ex: function createEmployeeObject(firstName, lastName, gender, designation){
+	 //var this = {};
+	 this.firstName =  firstName,
+	 this.lastName  =  lastName,
+	 this.gender    =  gender,
+	 this.designation= designation
+		//return this;
+     }
+    var emp2=new createEmployeeObject("phani", "Vytla", "M", "Bank Manager");
+    console.log(emp2);
+ ->The convention is to give first letter cap to a function name to identify that should be called as constructor.
+    function EmployeeObject(){};
+	var employee = new EmployeeObject();
+ ->Calling a regular function in constructor mode still works
+   Ex: var bicycle1 = new createBicycle(50, 20, 4);
+       function createBicycle(cadence, speed, gear){
+	   //var this = {};
+	   var newBicycle = {};
+	   newBicycle.cadence = cadence;
+	   newBicycle.speed = speed;
+	   newBicycle.gear = gear;
+  	   return newBicycle;
+	   //return this;
+       }
+ ->Calling a constructor function without the new keyword doesnt work! No new object gets created, and then return value is undefined
+    Ex: function Bicycle(cadence, speed, gear){
+	    //var this = {};
+	    this.cadence = cadence;//here this refers to global scope since no objects was created inside
+	    this.speed = speed;
+ 	    this.gear = gear;
+	    //return this;
+        }
+        var bicycle3= Bicycle(50,20,4);
+        console.log(bicycle3);
+        console.log(cadence);//50 gets printed since cadence gets created in global scope
+		
+=>Function execution types
+ ->There are four different ways to call a function in JS.
+   1.Method-1
+    Ex: function foo(){
+	    console.log("hello");
+		console.log(this);//here "this" refers to global object and Window objects gets printed when executing in browser
+         }
+        foo();
+   2.Method-2
+     Ex:  var obj={};
+          obj.foo=function(){
+	      console.log('Hello');
+		  console.log(this);//here "this" refers to the current object which is foo.
+          }
+          obj.foo();
+   3.Method-3
+     Ex: new foo();
+	     console.log(this);//here "this" refers to newly created object which is empty object foo {}
+   4.Method-4(Execution context)
+    
+  Ex-1: function Bicycle(cadence, speed, gear, tierPressure){
+	    //var this = {};
+	    this.cadence = cadence;
+	    this.speed = speed;
+ 	    this.gear = gear;
+ 	    this.tierPressure=tierPressure;
+ 	    this.inflateTires = function(){
+ 	    	this.tierPressure += 3;//here this refers to current object which called the function i.e bicycle1
+ 	    	console.log(this);
+ 	    }
+	    //return this;
+       }
+       var bicycle1 = new Bicycle(50, 20, 4, 25);
+       bicycle1.inflateTires();
+    Ex-2: function Bicycle(cadence, speed, gear, tierPressure){
+	    //var this = {};
+	    this.cadence = cadence;
+	    this.speed = speed;
+ 	    this.gear = gear;
+ 	    this.tierPressure=tierPressure;
+ 	    this.inflateTires = function(){
+ 	    	this.tierPressure += 3;//here this refers to current object which called the function i.e mike and it doent work as expected 
+			                       //there was never a property called tierPressure in mike previously
+ 	    	console.log(this);
+ 	    }
+	    //return this;
+       }
+       var bicycle1 = new Bicycle(50, 20, 4, 25);
+       function mechanic(name){
+	    this.name=name;
+       }
+       var mike=new mechanic("mike");
+       mike.inflateTires=bicycle1.inflateTires;
+       mike.inflateTires();//tis makes tierpressure NaN since we are doing operation whose type is not defined
+ 
+=>"call" function
+ ->To resolve above issue we have to go for 4th way of calling function using 'call'
+ ->This we can bind object to the function which is calling the function.
+  Ex-2: function Bicycle(cadence, speed, gear, tierPressure){
+	    //var this = {};
+	    this.cadence = cadence;
+	    this.speed = speed;
+ 	    this.gear = gear;
+ 	    this.tierPressure=tierPressure;
+ 	    this.inflateTires = function(){
+ 	    	this.tierPressure += 3;//here this refers to object which is binded i.e bicycle1
+ 	    	console.log(this);
+ 	    }
+	    //return this;
+       }
+       var bicycle1 = new Bicycle(50, 20, 4, 25);
+       function mechanic(name){
+	    this.name=name;
+       }
+       var mike=new mechanic("mike");
+       mike.inflateTires=bicycle1.inflateTires;
+       mike.inflateTires.call(bicycle1);//binding bicycle1 to mike and this wirks as expected and value of tierPressure is 28
+
+=>Prototypes in JS
+ ->JS doesnt have concept like classes. Prototypes lets us build objects using template or blueprint.
+ ->Its not exactly classes, We dont create instances of proptypes however we can create behaviours that can effect multiple objects using    
+   prototype
+ ->JS objects dont own mehods. They just have properties, and any property could be a function.
+ ->Every time when JS engine process a function it actually creates two objects.
+   1.One is with function name.
+   2.Second is the prototype
+ ->The way to access function prototype object is using that function name
+   Ex: function foo(){}
+       foo.prototype;
+ ->Function has protype object referred to prototype property. Without new keyword protype not used or doesnt apply.
+ ->When the function gets executed using new keyword there is as new object that JS engine creates that points to prototype
+ ->If we create one more object using new keyword one more object gets created that points to same prototype
+ ->We can create common properties in prototype object and can access directly from objects which were created using new keyword.
+   Ex: function foo(name){
+	   this.name=name;
+       }
+      foo.prototype.playPranks=function(){
+	  console.log("pranks played");
+      }
+      var foo1=new foo("Kalyan");
+      var foo2=new foo("Phani");
+      console.log(foo1.playPranks());//here playPranks gets executed from foo.prototype object each time a new objects calls it
+      console.log(foo12.playPranks());
+ ->This is protype lookup
+
+=>dunder-prototype
+ ->The double-underscores are referred to as "dunder-proto"
+ ->The function which has access to prototype and prototype which has access to function using constructor.
+ 
+=>"Object" function 
+ ->It is a global function of type function.
+ ->Functions are objects in JS, we can call it as an object
+ ->One way to create an object is
+    var simple= {};
+ ->Another way to create an Object is 
+    car obj = new Object();//internally used by runtime to create prototype object of any function
+ ->Both ways are same. In order to figure out 
+ 
+==============================================================================================================================================
+
+
+===============================JAVASCRIPT=========================
+=>Why should you learn JS
+ ->Initially created to do client side validation and rich applications.
+ ->Now it is not simple client side scripting language anymore.
+   1.Servrside applications
+     Ex: Node.js, Express
+   2.IOS applications
+   3.Desktop applications.
+    Ex: Electron JS
+   4.Frontend applications
+     Ex: React JS, React native, Angular
+   5.Virtual Reality applications
+     Ex: React VR
+   6.Machine learning platform
+     ex:TensorFlow.js
+
+=>What is Document Object Object(DOM)
+ ->There are three main aspects for basic web development 
+  1.HTML
+   >> Adds Structure to our websites
+   >> Tags used for eg. <div>, <section>, <p>
+  2.CSS
+   >> Adds styles to our webpage
+   >>Eg. colors, border, mrgin, image, positions etc.
+   >> Can use ids, classes or direct tags to reference HTML tags
+  3.JS
+   >> Adds programming to our webpages
+   >> Adds functionality eg. client side validations, effects & events etc..
+ ->How does JS interact with HTML document?   
+  1.This is where DOM comes into picture.
+  2.DOM is structurual representation of HTML document. All the tags in HTML are classes.
+  3.JS looks at the DOM in terms of nodes. There are so many nodes but mainly three.
+    >> Element nodes
+	  eg. <head>
+	>> Attribute node
+	  eg. <div id="div1">
+	>> Text node
+	  eg. <title>My Title</title>
+	  
+=>Onclick event in JS
+ ->Taking input from textbox
+   HTML:
+      <body>  
+        <input id="text1" placeholder="EnterSomething">
+        <br>
+        <button onclick="buttonClicked()" id="btn1">Click</button>
+      </body>
+   JS:
+      function buttonClicked() {
+    	  var name=document.getElementById("text1").value;
+    	  alert(name);
+	    }
+ ->Taking input from radio button
+   HTML:
+      <body>  
+        <input name="rd" id="rd1" type="radio" value="Code Snippets">Code Snippets
+		<br><br>
+		<input name="rd" id="rd2" type="radio" value="Telusko Learnings">Telusko learnings
+		<br><br>
+		<input onclick="buttonClicked()" type="button" value="Click">
+      </body>
+   JS:
+      function buttonClicked() {
+        var rd1=document.getElementById("rd1");
+    	   var rd2=document.getElementById("rd2");
+    	   if(rd1.checked==true)
+    		   alert("The channel selected is: "+rd1.value);
+    	   else if(rd2.checked==true)
+    		   alert("The channel selected is: "+rd2.value);
+    	   else
+    		   alert("No channel selected");
+	    }
+ ->Taking input from select box
+   HTML:
+     <body>  
+      <select id="sb">
+        <option value="Simple snippet">Simple snippet</option>
+        <option value="Telusko learnings">Telusko learnings</option>
+        <option value="MK BHD">MK BHD</option>
+      </select>
+      <br><br>
+      <button onclick="buttonClicked()">Click me</button>
+     </body>
+   JS:
+     function buttonClicked() {
+ 	   var sb=document.getElementById("sb");
+  	   alert(sb.options[select.selectedIndex].value);
+	  }
+=>getElementsByTagName method in JS
+ ->It gives HTML collection corresponding HTML tag names
+  Ex:
+   HTML:
+      <body>  
+        <p>This is paragraph 1</p>
+        <p>This is paragraph 2</p>
+        <p>This is paragraph 3</p>
+        <p>This is paragraph 4</p>
+        <p>This is paragraph 5</p>
+        <br>
+        <button onclick="changeStyling()">Click me</button>
+        </body>
+	JS:
+	   function changeStyling(){
+	    var para=document.getElementsByTagName("p");
+	    para[0].style.fontSize = 24;
+	    para[2].style.color = "red";
+	    para[3].style.fontWeight = "bold";
+	    para[4].style.fontStyle = "italic";
+        }
+		
+=>getElementByClassName method in JS
+ ->ID has to be unique, when we want change styling for multiple tags amoung all, then we can use class
+   Ex:
+     HTML:
+	    <body>  
+        <p class="myPara">This is paragraph 1</p>
+        <p>This is paragraph 2</p>
+        <p>This is paragraph 3</p>
+        <p class="myPara">This is paragraph 4</p>
+        <p>This is paragraph 5</p>
+        <br>
+		<a class="myPara" href="#">This is Anchor tag</a>
+        <button onclick="changeStyling()">Click me</button>
+       </body>
+	JS:
+	  function changeStyling(){
+	  var para=document.getElementsByClassName("myPara");
+       for(i=0;i<para.length;i++){
+	    para[i].style.color = "red";
+        }
+       }
+	   
+=>onMouseOver and onMouseOut events in JS
