@@ -1,0 +1,544 @@
+=======================================================Angular===================================================================
+Angular technologies
+ 1.Angular
+ 2.Javascript / Typescript
+ 3.Angular CLI
+ 4.Reactive proramming, RxJS, Observables, operators
+ 5.Jasmine, Karma
+ 6.Redux, ngRx
+ 
+=>Component based model
+ ->Treditional approach involves below things
+   1.HTML -Static portion of HTML
+   2.JS -Dynamic portion of HTML
+   3.JS does the DOM manipulations
+ ->In Angular its completely different. Angular has component based approach. We dont think what is HTML and JS code we need to add instead As 
+   Angular developper we need think what are the components that we need design, create, build put together so that we have the application.
+ ->Individual UI elements can divided(breakdown into components) into components.
+   Ex: Header component-> Which contains both HTML and JS together in it. This is as self sufficient peace of code and it knows how to render.
+ ->Every component can be assigned a tag or a selector which is basically how somebody else can use this component. 
+   Ex: <header-section></header-section> //somebody can use this tag or selector else to render the component.
+ ->We have to regiter these components with Angular along with the name. Angular pull these components whenever somebody try to render it. It 
+   can be added in multiple places.
+	Ex:  <header-section></header-section>
+	     <main-section></main-section>
+		 <side-bar></side-bar>
+		 <footer-section></footer-section>
+		 
+ ->Components could have sub components. Component structure is a tree.
+ ->Starting point of a tree is root component. Every Angular application has a root component which has main componets which needs to be 
+   displayed in the page. Those componets can have child componets and so on..
+   
+=>Execution flow
+ ->It starts from index.html
+ -><app-root></app-root> is the root component selector name. It is the starting point.
+ ->app.component.ts, app.component.html, app.component.css are three files which provides functionality and look and feel
+ ->As we know component is combination and of view and backing logic. Here view is HTML and CSS, backing logic is TS file.
+
+=>Creating component
+ ->ng generate component hello-world //hello-worls is component name
+ ->Every componets has its own HTML selector. We have to use that selector inside root component app.component.html
+  Ex: <app-hello-world></app-hello-world> //here hello-world component gets rendered inside app component 
+ ->Number of times when we load the component, those many instances of that component gets created.
+   Ex: <app-hello-world></app-hello-world>  //1st instance
+       <app-hello-world></app-hello-world>  //2nd instance
+       <app-hello-world></app-hello-world>  //3rd instance
+ -> <app-hello-world></app-hello-world>
+    <app-date></app-date>
+ ->Every Angular component is basically is a typescript class. Thinks of HTML and CSS files as just extra attachments to the main Typescript 
+   file
+ ->Register that class as an Angular component so that we  use the selector like this and typescript calss can be instantiated and 
+   functionality executed. That can be done like below.
+    @Component({
+     selector: 'app-date',
+     templateUrl: './date.component.html',
+     styleUrls: ['./date.component.css']
+    })
+ -> {{message}} can be used in html file to access member variables from TS code.
+   Ex:  date works! {{message}}   //here message is member variable
+ -> Accessing date in TS
+   Ex: message : string = new Date().toDateString();
+
+=>Data Binding
+ ->Data binding in Angular refers to binding the data in the component instance to the HTML template. Any changes to the data automatically 
+   get updated in the view. In this case it is one way data binding.
+     Ex:  <div>
+           <p>The date is </p>
+           <p>
+            {{message}}
+           </p>
+          </div>
+ ->In order to update the time for each sec, we need to use interval API. setInterval is a javascript API that lets you run a function at 
+   regular time intervals.
+    Ex:  constructor() { 
+          setInterval(() => {
+            let currentDate = new Date();
+            this.dateMessage = currentDate.toLocaleDateString()+" "+currentDate.toLocaleTimeString();
+           }, 1000);
+         }
+ ->In the above case this refers to the component instance
+ 
+=>Template Interpolation
+ ->It can be done using {{}}. Angular looks at the content inside it not as static text but as the expression to evaluate.
+  Ex-1:  {{ dateMessage }} //here the value of member variable dateMessage gets printed
+  Ex-2:  {{ 2+2 }} //here 4 gets printed
+  Ex-3:  {{ addTwoNumbers(2,6) }} //here addTwoNumbers methos is defined in TS class
+  Ex-4:  {{ addTwoNumbers(2,someNumber) }}
+ ->Everytime undelying value changes, these expression changes automatically. It can be used for complex expressions as well
+ 
+=>Looping with ngFor(directive)
+ ->Looping an array of elements we use ngFor. It is an special Angular syntax to get value from component and render a certain DOM element.
+  ->Below example is bad way of looping
+  Ex:   <div>
+         <p>phone:</p>
+         <p>{{user.phone[0]}}</p>
+         <p>{{user.phone[1]}}</p>
+        </div>
+ ->That can be made simple using below
+  Ex:  <div>
+        <p>phone:</p>
+        <p *ngFor="let phonenumber of user.phone">{{phonenumber}}</p>
+       </div>
+ ->This is how we loop over arrays and have templates repeating certain sections depennds on data
+ 
+=>using ngIf
+ ->In the above case what if there are no elemnts in the array still the text "phone:" gets displayed in browser.
+ ->To get rid of that we use one more directive called ngIf
+ ->If the condition is true, then only the template gets bounded to ngIf will be displayed in browser otherwise wont. 
+  Ex: <div *ngIf="user.phone.length">
+ ->ngIf does remove div from DOM if expression evaluating false.
+ 
+->Passing inputs to components
+ ->Lets update address card component in order to pass in the data rather than hardcode the data. It can be done in two ways.
+ -> Accessing attribute from app.component.html to component can be using @input
+    Ex:  <app-address-card name="New Name" foo = "as" bar = "baz" ></app-address-card> //app.component.html
+         @Input("name")
+         userName : string;
+ ->First way
+  Ex: ngOnInit() {
+       this.user = {
+       name: this.userName,
+       title: "Software Developper",
+       address: "1234 main st, City, state, 100010",
+       phone:
+        ["123-123-1234",
+          "456-456-4567",
+          "891-891-8912"
+        ]
+       };
+      }
+	  
+	  
+=>ngOnInit
+ ->Above scenario didn't work when we put code in constructor but it worked when put in ngOnInit
+ ->In order to understand that we need to know life cycle of Angular component.
+   1. When we use selector Angular initialize the component.
+   2. Then constuctor gets called, if no constuctor defined then no op constuctor. One of the thing is to populate data.
+   3. Angular also does few other things after created object. One of such thing is @input
+   4. The constructor is when object is created after creation of objects is when Angular populates the values
+   5. when we use the line "<app-address-card name="New Name" ></app-address-card>", Angular calls address card component constructor by then 
+      the value of "name: this.userName" set to empty value since @Input("name") is still not available. 
+ ->In order to resolve these problems Angular provided some lifecycle methods(hooks).
+   1.ngOnInit ->Angular calls this method when the component is fully initialized
+   2.ngOnChanges()
+   3.ngOnDestroy
+    https://v2.angular.io/docs/ts/latest/guide/lifecycle-hooks.html
+
+=>Passing member variables to components
+ ->Like we passed as above name we can pass all required member variables. But that's gonna be tedious. Instead we can pass an object that  
+   contains all those values that the address card component needs.
+ ->In order to create that object, we can create a class which defines how object should be.
+ ->In our case it should contain name, designation, address and array of phone numbers.
+ ->Then that can be use @input 
+   Ex: <app-address-card user = {{user}} ></app-address-card>
+ ->To access user object created in app.component.html, we need to create user as member object
+    Ex: export class AppComponent {
+         user : User;
+         constructor(){
+         this.user = new User();
+         this.user.name = "Foo Bar";
+         this.user.designation = "Software Engineer";
+         this.user.address= "1000 Street City State";
+         this.user.phone = [
+          "123-123-1234",
+          "567-567-5678"
+         ];
+         }
+        }
+=>Styling angular components
+ ->The styles(css files) that you apply in your component apply only to mark-up inside that component.
+   Ex: .address-card {
+          border: 1px green solid;
+          padding: 15px;
+        }
+       .name {
+          font-family: "Verdana",   sans-serif;
+        }
+       .title {
+          font-style: italic;
+        }
+       .address {
+          font-size: 15px;
+        }
+       .phone {
+          border-left: 1px grey solid;
+          padding-left: 5px;
+        }
+ ->This works because of the way Angular manages styling. Angular try to insulate styling that we apply only to that component. that's design
+ ->Angular let us focus on individual component styling not having to worry about if it breaks other components.
+ ->Otherwise it would be very difficuly to manage styling in complex applications
+ ->But what if you really need global styling. we can do that using "styles.css"
+ 
+=>Handling click events
+->When we work with click events we need to call click api of angular but not the click events of browser.
+  Ex(way-1):
+    HTML:   <button *ngIf="isCollapsed" (click)="toggleCollapse()">Expand</button>
+            <button *ngIf="!isCollapsed" (click)="toggleCollapse()">Collapse</button>
+	        <div *ngIf="!isCollapsed">
+              <p class="address">{{user.address}}</p>
+              <div class="phone" *ngIf="user.phone.length">
+                <p>phone:</p>
+                <p *ngFor="let phonenumber of user.phone">{{phonenumber}}</p>
+              </div>
+            </div>
+	TS: isCollapsed : boolean = true;
+	    toggleCollapse(){
+          this.isCollapsed = !this.isCollapsed;
+        }
+  Ex(way-2):
+    HTML:    <button (click)="toggleCollapse()">{{expand}}</button>
+             <div *ngIf="!isCollapsed">
+              <p class="address">{{user.address}}</p>
+              <div class="phone" *ngIf="user.phone.length">
+               <p>phone:</p>
+               <p *ngFor="let phonenumber of user.phone">{{phonenumber}}</p>
+              </div>
+             </div>
+	TS:    isCollapsed : boolean = true;
+           expand : string = "Expand" ;
+		    toggleCollapse(){
+              this.isCollapsed = !this.isCollapsed;
+              if(this.expand === "Collapse"){
+                this.expand = "Expand";
+               }
+              else {
+                his.expand = "Collapse";
+               }
+             }
+			 
+=>Two way data binding(ngModel)
+ ->Till now we have seen one way data binding and passing inputs to components and updating it on the view. We haven't see view updates back 
+   value in the component
+ ->That can do that using directive called  "ngModel".  
+   Ex: <input type="text" [(ngModel)]="inputText">  //app.component.html
+       {{inputText}}
+	   
+	   inputText : string = "Initial value";  //app.component.ts
+ ->In order to use ngModel we need to import FormModule into app.module.ts where component resides and use ngModel like [(ngModel)] in 
+   order to acheive two way data binding.
+ ->What's happeing is when we make a change in text box two way data binding causes the app component "inputText" property to be updated.
+   <input type="text" [(ngModel)]="inputText">
+ ->Because of one way data binding the "inputText" property is bound to that property, when property changes the view gets updated that's 
+   what happeing.
+   {{inputText}}
+ ->[()] syntax is referred to as banana-in-a-box.It helps to remember the order: brackets outside, paranthesis inside
+ ->[] indicate Angular picking up a value and using it in a view where as () indicates changes in view updates component(click event), which 
+   is the data flow other way
+   
+=>Creating and using multiple modules
+ ->A module is basically a thing that consolidates different components. It does lot more than that.
+ ->Module is like a container or name space which contains these different things i.e in this case  AppComponent is only component by freshly 
+   generated Angular project and that has been declared in the module AppModule.
+ ->So Appcomponent is part of AppModule. We can actually create multiple modules in a project. Each module actually contains components 
+   within it.
+ ->It can contain lot more but we have been looking at componrents so far.
+ ->For simple application may be one module is sufficient, but not in the case of complex application. So you build a feature modules which  
+   are group of related components.
+ ->"declarations" inside @NgModule contains all the components associated with that module.
+ ->"imports" is basically establishing your dependency on other modules. Let'say we have broken down your fetures into sub modules, lets say 
+    we have broken down address book application and there is one module which manages address card UI, so that we can have seperate module 
+	called AddresscardModule and your application module(AppModule) need to have that module imported in it.
+	 Ex: imports: [
+           BrowserModule,
+           AddressCardModule
+         ]
+ ->When you import that module you get to use components in that module.
+ ->To create module use below command
+   ng generate module view   //view is the module name
+ ->While creating componets 
+    Ex: ng generate component view-component //by default Angular generates component in the AppModule that's where the root is
+ ->What if we want to create a component in other module
+   ex: ng generate component view/view-component      //prefix the module name to component
+ ->If we use the selector "<app-view-component></app-view-component>" directly in the app.component.html it wont work. In the browser console 
+   you could see below error.
+    error:   Uncaught Error: Template parse errors:
+             'app-view-component' is not a known element:
+             1. If 'app-view-component' is an Angular component, then verify that it is part of this module.
+             2. If 'app-view-component' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message. ("[ERROR ->]<app-view-component></app-view-component>"): 
+ ->That is because the AppModule has no idea about "ViewComponentComponent"
+ ->How do you tell? how do you import? This can be done using importing view module itself and export ViewComponentComponent
+   Ex:   
+     app.module.ts: 
+	         imports: [
+               BrowserModule,
+               ViewModule
+              ]
+	 view.module.ts:
+               @NgModule({
+                 declarations: [
+                   ViewComponentComponent
+                  ],
+                 imports: [
+                   CommonModule
+                  ],
+                 exports: [
+                   ViewComponentComponent
+                  ]
+                })
+ ->We have to import the module and export the component when we use component which is outside of the AppModule
+ 
+=>imports in Angular
+ ->There are two types of imports happen
+   1.Import of class 
+     Ex: import { ViewModule } from './view/view.module';
+   2.Angular import (when we want to import module inside the other module)
+    Ex:    imports: [
+               BrowserModule,
+               ViewModule
+            ]
+			
+=>Creating a service
+ ->We create component which is used to render some functionality in a portion real estate in view.
+ ->So if we need some dynamic functionality we create a component, we write the view and we write the backing logic that goes with it and we 
+   create these reusable elemnts.
+ ->Not all reuasable elements are actually views, you could create some reusable elements which is just functionality like a service or a 
+   method that needs to be used in multiple places.
+ ->So if we need to create those business services which dont really have a view we can create services in Angular.
+ ->Services are also classes like componets are, which contains functionality that you can reuse across multiple different components.
+ ->How to create a service? 
+    ng generate service test   //test is the service name
+ -> @NgModule-->Angular module
+    @Component-->Angular component
+    @Injectable-->Angular service
+ ->Like component when we create a service no updates takes place in module. However just like a component a service does need to be part of 
+   a module.
+    Ex:    providers: [
+             TestService
+           ]
+ ->By means of which now the service is available for other components to use in AppModule
+ ->To access methods of a service from other components is by "dependency injection"
+ 
+=>Dependency Injection
+ ->DI is same as JAVA. 
+ ->The easiest way to do the above case is
+   Ex:    constructor() {
+            let svc =new TestService();
+            svc.printToConsole("Hi Kalyan");
+           }
+ ->In the above case it tightly coupled. What if the method is an API call, it is a pain when testing. This in not ideal.
+ ->Second disavantage is service depends on other services. If TestService has constructor which initializes other services now we have this 
+   nested hell of a creating objects and so on.... That is painful.
+ ->So that's where DI comes in handy
+ ->The idea of DI is when you have a class that dependent on other class instead you create instance of it, you inject it.
+ ->Whenevr Angular creates the components Angular looks at the constuctor arguments and check if any of these arguments are injectable(if 
+   they are services), Angular gonna find an instance of that service or it gonna creates one if it doesnt find one then it pass that to 
+   constructor
+  Ex:    // I need TestService
+         constructor(private svc : TestService) {  //it creates a private member variable svc
+          svc.printToConsole
+         }
+ ->It is the good way to write utility methods
+ 
+=>Service Injection context
+ ->Difference between the way how component operates and how services operate in module.
+  1.In case of component if we want to access a component which is outside of the module, then we have to export that component from current 
+    module and import the module in which the component is in.In case of services things work little differently.
+  2.In above case the AppModule imports ViewModule but the ViewModule is kind of self sufficient. Its not importing anything else. It has  
+    one component declared ViewComponentComponent and exports it.
+  3.Can the ViewComponentComponent access the service that's inside the Appcomponent? It still works
+  4.Its possible because the way services work in Angular. Services are not restricted to the module they declared in.
+  5.In the case of providers(services), Angular create a common shared space for servies i.e that common area anybody can access.
+  6.The shared service space is called dependency Injection context.
+  7.That's why when we created service it didn't add to any of the modules. Once module in which service name is listed in providers imported 
+    to main AppModule it gets shared to all modules.
+  8.If the modules doesn't matter all these services end up in shared service space anyway, why does it even matter in which module the service
+    gets declared in? That's where lazy loading takes place in Angular
+	
+=>Making REST calls with HttpClient
+ ->Angular comes with few services built riht out of the box. One of them is HttpClient service
+ ->In order to use that, We have to import that module in which the service comes with. You can add it to the providers section of any module 
+   so that it can added to Injection context so that it's available available to all the components to use. Typically it makes sense to import HttpClient module in the root module i.e AppModule
+    Ex:  import {HttpClientModule} from '@angular/common/http';
+	     imports: [
+            BrowserModule,
+            HttpClientModule,
+            ViewModule
+          ]
+ ->Now all the providers in that module are part of Injection context
+ ->'HttpClient' is the service which lets you make  HTTP calls.
+ ->Http call is asynchronous in Angular world. What you get is not response it is Observable. Then you need to call some function using 
+   Observable.
+    Ex:  ngOnInit(){
+          let obs = this.http.get('http://localhost:8080/emp/all');
+          obs.subscribe((response)=> {
+            console.log(response);
+           })
+		 }
+ ->Ex:  
+     HTML:   ID: <input type="text" [(ngModel)]="id">
+             <button (click)="search()">Search</button>
+        	 <div *ngIf="response">
+               Name:{{response.name}},<br>
+              Id: {{response.id}}<br>
+              Department: {{response.departmnt}} <br>
+            </div>
+			
+     TS:     id : number;
+             response : any; //member variables
+			 constructor(private http: HttpClient) { 
+              }
+			 search(){
+               this.http.get('http://localhost:8080/emp/id/'+this.id)
+                         .subscribe((response) => {
+                              this.response=response;
+                             console.log(this.response);
+                           });
+ ->In case if you dont want to use ngIf then u can do below if response is undefined.
+   Ex: Name:{{response?.name}}
+   
+=>Building an Angular application
+ ->Build can be generated using below command and it generates it into one folder with basic HTM, CSS, JS. That is independent of Angular CLI 
+   ng build 
+ ->There is a folder called dist/BUILD-PROJ gets created in project. That can be deploy and host individually.
+	 npm install http-server -g   //local HTTP server
+	 http-server dist/build-proj
+ ->However we eliminated ng serve, we still see warning "Angular is running in the development mode. Call enableProdMode() to enable the 
+   production mode". In order to do that we need to run ng build in production mode.
+    ng build --prod
+ ->It also do AOT(Ahead Of Time Compilation). In general it perform whole lot of optimizations that Angular CLI can do.
+ ->It also creates hashes.
+    Ex: main.6d9b8f29aec2ac0ee946.js
+ ->The main reason is whenever new new Build is generated hash value gets changed
+ ->If you run the build now u dont see the warning.
+ 
+=>Introduction to Routing
+ ->When you have a single page app, you will wanna be different views to the user. Lets say if u click on a link view-1, then click shows 
+   view-2 etc..
+ ->This is usually handled in a treditional server side application in a full page refresh. When click link-1 browser makes request to 
+   server, server responds with a complete new page. There is a full page refresh that happens. 
+ ->That is not the case with single page apps. In single page apps when the user clicks on something new view needs to be displayed. It 
+   usually done without new page refresh. It is the same page its the view that's displayed to the user dynamically changes by the execution of JS. The JS somehow removes the DOM elements of view-1 and inserts DOM elements of view-2 like its a different view. This swithching between views in Angular application happens with the concept called Routing.
+ ->Why do we need routing for that? we know ngIf to show/hide stuff? In case of multiple huge dev's handled by single component it's tedious.
+ ->Couple of principles in Routing 
+   1.URL based routing
+   2.Component based routing(one component per view)
+ ->In Angular we first provide routes needed in application, for each route we configure a route URL that triggers a route and you map it 
+   root component that's responsible for handling view in that route. And we provide this configuration to Angular routing framework then Angular takes care of rest.
+ ->Once user gets to path to a route it removes view that's currently displayed at that time and it will find and instantiate the new 
+   component that's mapped to show the view.
+ ->In order to create multi-view Angular application
+    1.Define your route URLs
+	2.create Angular component for each view(one for each route)
+	3.Configure Angular to map route URLs  to components
+
+=>Creating Angular project with routing
+ ->Below command has to be used to create project 
+    ng new routing-intro --routing
+ ->routing modules include in dependencies and cretes module named "app-routing.module.ts"
+ ->The below array of routes configure routes
+   const routes: Route[] = []; //array of routes
+   imports: [RouterModule.forRoot(routes)]  //here providing routing info to Angular
+ ->In order to configure it we need to specify couple of things route URL, mapping component. We configure it and pass that to Angular and 
+   Angular does the rest.
+ ->Whenever those routes are accessed in your page Angular loads the components. 
+   Ex: const routes: Route[] = [
+          {path: 'view1', component: comp1},
+          {path: 'view1', component: comp2}
+       ]; 
+	   
+=>Creating Routes
+ ->Lets add two routes and two views. Home route and settings route.
+   ng g c home //another way of creating components
+   ng g c settings
+ ->Adding routes in app.routing.module.ts
+   Ex:  const routes: Route[] = [
+        {path: 'home', component: HomeComponent},
+        {path: 'settings', component: SettingsComponent}
+        ];
+ ->Below line gets created by Angular in app.component.html required to know where to put the component you wanted to.
+  eX: <router-outlet></router-outlet>
+ ->Then access below URLs
+   Ex: http://localhost:4200/settings
+       http://localhost:4200/home
+ 
+=>Route redirects and wildcards
+ ->There is one problem with above case, when we load default URL "http://localhost:4200/" nothings show up. Instead if you want to redirect  
+   to "http://localhost:4200/home" 
+ ->Setup a default route and error handling when user doesn't specify right URL.
+   Ex:  const routes: Route[] = [
+        {path: '', component: HomeComponent},
+        {path: 'home', component: HomeComponent},
+        {path: 'settings', component: SettingsComponent}
+       ];
+ ->Now if you access "http://localhost:4200/", you will be redirected to HomeComponent.
+ ->Here the path to component mapping is not one to one, we can have multiple URLs mapped to same component. That's fine.
+ ->This is not recommended as we have mapped two different routes to same component.
+   Ex: path: '', component: HomeComponent
+       path: 'home', component: HomeComponent
+ ->When user enter the URL we should not be having copy of that route(home component)
+ ->The way to to that is using property 'redirectTo"
+   Ex:  const routes: Route[] = [
+         {path: '', redirectTo: '/home', pathMatch: 'full'},
+         {path: 'home', component: HomeComponent},
+         {path: 'settings', component: SettingsComponent}
+        ];
+ ->In the first case Angular loads HomeComponent when URL "http://localhost:4200/" gets loaded. In the second case it redirected it.
+ ->When we access a route like "http://localhost:4200/foo" which is not declared, we would get the below error in developer tools.
+   Error:  Error: Uncaught (in promise): Error: Cannot match any routes. URL Segment: 'foo'
+ ->If we have to show some friendly error message using wildcard. By specifying path as "**" i.e wildcard
+   eX:  const routes: Route[] = [
+          {path: '', redirectTo: '/home', pathMatch: 'full'},
+          {path: 'home', component: HomeComponent},
+          {path: 'settings', component: SettingsComponent},
+          {path: '**', component: PageNotFoundComponent}
+         ];
+ ->Now if you access invalid URL, it will load wild card component which is PageNotFoundComponent.
+ ->Since we are using wildcard, it retains URL. So as per the Angular its not an error. Its a pattern match. We configure it as error.
+ 
+=>Configuring child routes.
+ ->Suppose if we a page inside settings ex: settings/profile and settings/contact within settings component.
+ ->So we have a router window settings inside it we have sub windows.
+ ->To tell Angular that the route has child routes we have a property called "children"
+   Ex:  const routes: Route[] = [
+          {path: '', redirectTo: '/home', pathMatch: 'full'},
+          {path: 'home', component: HomeComponent},
+          {
+            path: 'settings',
+            component: SettingsComponent,
+            children: [
+              {path: 'profile', component: SettingsProfileComponent},
+              {path: 'contact', component: SettingsContactComponent}
+             ]
+          },
+          {path: '**', component: PageNotFoundComponent}
+        ];
+ ->Now if we access settings/profile, it looks at settings route and then cheks for child route profile inside it.
+ ->We have to put <router-outlet></router-outlet> in settings.component.html since the root component router-outlet has only settings content 
+   not its child routes.
+   
+=>Showing navigation for routes
+ ->We can do below in app.component.html
+   Ex:  <h1>My App</h1>
+        <a href="/home">Home</a><br>
+        <a href="/settings">Settings</a>
+        <router-outlet></router-outlet>
+ ->It does full page refresh that's not we wanted. We have an directive called "routerLink" which can be used to eliminate this problem.
+   Ex: <a routerLink="/home">Home</a><br>
+       <a routerLink="/settings">Settings</a>
+ ->We can do below incase if we have to access routes from member variables
+   Ex:  <h1>My App</h1>
+        <a [routerLink]="homeRoute">Home</a><br>
+        <a [routerLink]="settingsRoute">Settings</a>
+        <router-outlet></router-outlet>
+
+=============================Angular Components=========================
