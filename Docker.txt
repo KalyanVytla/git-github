@@ -1,0 +1,140 @@
+===================================================DOCKER=========================================
+=>Why we need Docker?
+ ->Normally dev team develop software
+ ->Testing team test the software
+ ->Operations team deploy the software
+ ->We need framework, dependencies, OS level features to develop application. We develop software with all these.
+ ->We ship application to testing team. When they start testing it they might face some problems. That is not because of the application 
+   that's because of any one of the issue with environment setup(framework, dependencies, OS level features, version mismatch).
+ ->Normally we list all the dependencies and give it to them. If occurs any mismatch there's a crash.
+ ->That's like working on your machine and not working on another machine.
+=>What is Docker?
+ ->What if when we shipping the application which we build we have to ship everything the framework, application, libraries.
+ ->Some dependencies and libraries dependent on OS.
+ ->That's where hypervisor came.
+ ->Normally on top of hardware we install OS. On top of OS we have to install this hypervisor(VMvare).Again we have install guest OS on top of 
+   it.
+ ->We give entire image of the guest OS to testing team.Now they dont to worry about dependencies.
+ ->If the application is working on your machine then it will work on other machines as well.
+ 
+=>Hypervisor vs Docker
+ ->What if you have server and want to run multiple applications. Imagine every application needs seperate OS in the case of hypervisor.
+ ->Basically we are running multiple OS on the same hardware. So we are wasting resources i.e CPU,RAM,Harddrive.
+ ->Next issue with license. we have to buy for every guest OS we are installing.
+ ->Then we have container system.containers share same OS kernel.We have OS installed on hardware and Docker installed on top of OS.
+ ->We can have multiple containers and each container can run its own full pledged application(application+dependencies).
+ ->These containers can be created by the help of images.Packed version of container is called image.
+ ->We can run multiple instances of images, we can call them containers. If we create two containers of same image they behave in the same way.
+ ->We can ship the image anywhere.
+ 
+=>Docker-hub:
+ ->It as repository where all the docker images can be stored. There are so many official images as well as unofficial images. Ex: 
+   Hell--world image, linux ubuntu imaage.
+   
+=>Docker execution
+ ->When you search a command like "docker run"  it will search in local first. If it doesnt present it will download imaged from docker-hub 
+   and it will create a container.
+ ->Terminal talking to Docker client and Docker client makes request to docker deamon and docker deamon gets image from docker-hub.
+ ->When we run "docker run" for the second time, it will spin container from local machine.
+ 
+=>Docker commands
+ ->docker image pull ubuntu:latest ->If we dont mention the version it will download the latest version
+ ->docker run hello-world  ->pull an image from docker-hub and spin a container.
+ ->docker ps  ->Current running containers.
+ ->docker ps -a ->All containers present(running+non-running)
+ ->docker image ls ->all images present
+ ->dokcer rm ContainerId ->stop the container
+ ->dokcer rm ImageId  ->Removes the image
+ ->docker run -p 5000:5000 image-id ->to run the container and bridge the host port with container port
+ ->docker run -p 5000:5000 -d image-id  ->Run the container in detatched mode(so we can tie to the container console)
+ ->docker logs container-id  ->To check the container logs
+ ->docker container stop container-id  ->to stop the container without actually destroying it
+ ->docker search openjdk  ->searching for specific software
+ ->docker history image-id  ->histroy of image
+ ->docker inspect image-id/container-id
+ ->docker container prune  ->Except currennt running containers all other containers will be removed. 
+ ->docker run -d -p --restart=always 5000:5000 f8049a029560  ->this makes a container started when a docker engine restarts.Possible values  
+   are always/no.Default values is no. For databse kind of container we give it as always
+ ->docker events ->We can see all the events running rearding the containers.
+ ->docker top container-id
+ ->docker stats
+
+=>Installing ubuntu image:
+ ->docker image pull ubuntu:latest ->gets the latest ubuntu image from docker-hub.
+ ->When we install ubuntu on our desktop/laptop it is around 1GB. But the ubuntu image in docker is 28MB.Why it is light weight?
+ ->The thing is the version which we get from docker has limited set of features.The features which are very important.So it gives the 
+   mimimal version of ubuntu.
+ ->docker run -it 4e2eef94cd6b /bin/bash ->Runs ubuntu container and enter into ubuntu terminal.
+ ->At this point we are not using ubunru(OS) of host, we are using ubuntu(OS) of container.
+ ->When we use the command like "ping" it doesnt work by default since the container has limited set of features.
+ ->apt-get update ->updates the packages
+ ->apt-get install iputils-ping  ->install iputils-ping utility
+ ->Then u can ping "ping google.com"
+ 
+=>Docker architechture
+ ->Docker has many components.
+   1.Docker engine
+   2.Docker repository
+   3.Docker host
+ ->Docker engine 
+   1.The software which we install in local is known as docker engine.
+   2.There are 3 sections present
+     A.Docker client(docker CLI)
+	 B.Docker daemon(server)
+ ->Docker repository(docker-hub)
+   1.It is a remote repository where all the docker images present.
+   2.There are different options available other than docker-hub.
+ ->Docker daemon(dockerd)
+   1.Docker client interacts with docker daemon to get the job done.
+   2.Docker daemon provides different rest end points for client to do different work.
+ ->Docker host:
+   1.Docker host with the help of docker daemon manages all the images and containers.
+   2.Whenever docker daemon gets a request for the container from client, request goes to the "Containerd"
+ ->"Containerd":
+   1.Containerd is a special service which is responsible to manage the life cycle of container.
+   2.Containerd doesnt create or run by Containerd. That gets done by runc.
+   3.There's only one Containerd in one machine.
+ ->"runc":
+   1.runc is a special service which is responsible to create containers for us.Its sole responsiblity is to create container.
+   2.It creates container and goes out.
+   3.If we want to run multiple containers we need multiple runc.That's not the case with Containerd.There's only one Containerd in one 
+     machine.
+
+=>Containers:
+ ->For one image we can multiple containers.
+ ->When we run an application in a container and your application wants to store some data, container itself provides some writable files and 
+   we can store them in container. But the problem is once we destroy the container we loose the data as well.
+ ->When we stop the container data still present. Only when we destroy we loose the data.
+ ->But we want to preserve the data. That's where we use volumes.
+ 
+=>Volumes
+ ->Using Volumes we can store the data.
+ ->But one thing important is that if we want to store data in containers there are different drivers basically. 
+ ->One important one is "Overlay2".
+ 
+=>Dockerizing an application running on docker
+ ->It can be done in two ways.
+   1.We create a project seperately and we can dockerize(containerize) it so that it will run on docker.
+   2.We can create application inside the container itself.
+   
+=>Running an JAVA application as container
+ ->We need Java installed, and we'll use a OpenJDK image, such as openjdk:8-jdk-alpine. This is the most popular image used to run Java 8.
+ ->docker run -p 5000:5000 f8049a029560 //running with options.
+ ->By default every container that we run is part of a bridge network in docker. We can think of it like an internal docker network. Nobody 
+   will be able to access it unless you expose to the host or the system that you are running.
+ ->We have to publish the container port to the host port to access the application.
+ ->We can run container in the detatched mode using below command.
+   Ex: docker run -p 5000:5000 -d f8049a029560
+ ->If we want see the check the container logs use below command.
+   Ex: docker logs container-id
+ ->We can pause/un-pause a container.
+  Ex: docker pause container-id
+      docker unpause container-id
+
+=>Difference between docker kill and docker stop?
+ ->docker stop is a graceful shutdown.A command called SIGTERM sent out to container.
+ ->Docker kill terminate the process.A command called SIGKILL sent out to container.
+ 
+=>Assigning memory and CPU limits to a container
+ ->Using below command we can do that.
+  Ex: docker run -p 5000:5000 -m 512m --cpu-quota 5000 -d f8049a029560
