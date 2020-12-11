@@ -1,0 +1,30 @@
+=======================================Kubernetes===================================================
+=>Why kubernetes
+ ->It solves the problem which docker can't which is dynamic scaling and make it highly available.
+ ->we can create a cluster which can manage a group of computers(servers).
+ ->Kuberntes take care of high availablity. Even if one of the instance(container) goes down it tries all it can do make instance up.
+
+=>Kubernetes fun facts
+ ->K8S standsf for Kubernetes.
+ ->koo-ber-net-eez
+ ->Logo-helsman of ship
+ ->Kubernetes cloud
+   1.AKS
+   2.Amazon EKS
+   3.GKE
+
+=>kubectl(kube controller)
+ ->kubectl is a command tool to interact with cluster.
+ ->It would work with any kubernetes cluster irrespective of the cluster whether it is in local machine, whether it is in data center, ot it 
+   is in the cloud.
+ ->Once we connect to the cluster we can execute commands against any cluster using kubectl.
+ ->kubectl can do lot of important things for us with K8S.
+  1.Deploy the application
+  2.Increase the number of instances(scale)
+  3.Deploy a new version of the application
+  
+=>Commands
+ ->Command to deploy an application.
+    Ex: kubectl create deployment hello-world-rest-api --image=in28min/hello-world-rest-api:0.0.1.RELEASE
+ ->Command to expose port.
+   Ex: kubectl expose deployment hello-world-rest-api --type=LoadBalancer --port=8080 
