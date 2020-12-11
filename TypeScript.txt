@@ -1,0 +1,352 @@
+npm config set https-proxy http://10.192.116.73:8080/  
+npm config set proxy http://10.192.116.73:8080/  
+npm config set registry https://artifactory.global.standardchartered.com/artifactory/api/npm/npm-release  
+npm config set strict-ssl false 
+jshint output moving to file
+jshint .>> C:\Users\1601757\Desktop\JshintOutput.txt
+
+npm cache clean --force
+https://stackoverflow.com/questions/60248452/is-there-a-compatibility-list-for-angular-angular-cli-and-node-js
+
+npm install -g @angular/cli@7.1.4
+
+========================================================TYPESCRIPT===================================================
+=>What is Typescript
+ ->A programming language
+ ->Free and open-source
+ ->Developped and maintained by Microsoft
+ 
+=>Why Typescript
+ ->Problems with JS
+  1.It was initially created for simple DOM manipulations
+  2.JS designer wouldn't have imagined the type of adoption in modern days
+  3.It has some querks wheras Typescript solve lot of these problems
+  
+=>Problems with JS
+ ->Typing
+ ->There is no structure for Objects
+ ->Application complexity
+
+=>How Typescript works?
+ ->Write the code in TS, and then it gets transpiled into JS.
+ ->We need to have TS compiler to run TS code.
+ ->Once we get the JS code, we deploy it onto either browser or Node Js environment
+ 
+=>Typescript vs Javascript
+ -> Typescript = Javascript + typing
+ ->Typescript is superset of Javascript
+ ->A valid JS is TS
+ ->Typescript does the conversion into JS that includes new features of JS as well.
+ ->TS simplifies code making easier and makes complex apps more manageable.
+ ->Angular is using TS.
+ 
+=>Setting up Typescript
+ ->VS Code
+ ->Node Js
+ ->Typescript compiler(It is a node npm package)
+   npm install typescript -g
+ 
+=>How to run Typescript
+ ->Compilation
+    Ex: tsc hello-world.ts
+
+=>Type declarations
+ ->Wecan declare types in TS
+   Ex: var a:number;
+       a=10;
+	   a=true;//Type 'true' is not assignable to type 'number'
+ ->All primitive JS types are valid TS types too
+  Ex: var a:number;
+      var b:boolean; 
+      var c:string;
+      a=10;
+      b=true;
+      c='Hello';
+ ->TS uses post-fix declarations
+ ->'undefined' is both data type and value
+ ->undefined and null are both premitive data types with one valid value each 'undefined' and 'null' respectively.
+ ->TS doesnt much use both of these.
+ 
+=>Arays
+ ->Arrays in TS can be written like this
+   Ex: var myArr : number[];
+       myArr = [1,2,3];
+       myArr = ['1',2];//Type 'string' is not assignable to type 'number'
+ ->In JS array can hold different values like number, string, boolean etc...
+  Ex: var arr = [1, 'name'. true];
+ ->In TS we use concept like TUPLE which works as an array which holds different data type values.
+   Ex: var myArr : [number, boolean];
+       myArr = [1, true]; //tuple
+	   myArr = [100, false];
+	   myArr = [1];//Property '1' is missing in type '[number]' but required in type '[number, boolean]'
+	   
+=>Type erasure and error behaviour
+ ->The pusrpose of transpiling is for the development environment not for the runtime environment
+ ->TS features exist during compile time, not at the runtime.
+ ->Even though there exist some errors in TS file, still corresponsding JS file will get generated.
+   Ex: var a;
+       var b;
+       var c;
+       a = true;
+       b = true;
+       c = 'Hello';
+ ->In the treditional compiler, if error occured when compilation then compilation stops. That is not thr case with TS.
+ 
+=>Typing function
+ ->We can declare types for functions as well.
+   Ex: function add(a:number, b:number){
+         return a+b;
+       }
+ ->The number of arguments to functions in JS dont have to match the function signature. You can pass in more or lesser arguments than what's 
+   declared in the function, it doesn't work in TS.
+ ->By default TS enforces that the argument counts in function calls exactly match function signature.
+   Ex: function addNumbers(a, b){
+         return a+b;
+        }
+       var sum = addNumbers('foo');//Expected 2 arguments, but got 1.
+ ->Optional argument in TS
+   Ex: function addNumbers(a, b, c?){
+       return a+b;
+       }
+       var sum = addNumbers('foo', 2, 3);
+ ->Optional argument has to be at the end. We can assign default value to optional argument.
+    Ex: function addNumbers(a, b:number, c = 0){   //here c is an optional variable and default value is 0
+         return a+b+c;
+        }
+        var sum = addNumbers('foo', 2);
+        console.log(sum);
+ ->Return type of a function also can be specified.
+   Ex: function addNumbers(a, b:number, c = 0) : number {
+        return a+b+c;
+       }
+	   
+=>Implicit typing
+ ->TS does implicit typing
+   Ex: var a=10; //implicitly declare it as Number
+        var b=true;
+       var c='Hello';
+       a=true; //Type 'true' is not assignable to type 'number'
+ ->If you dont explicitly declare a variable type, but you assign a value with the declaration, TS implicitly assumes the type from value   
+   being assined
+    Ex: function greet() : string{
+          return 'good morning';
+         }
+        var greeting = greet(); //here type of greeting is String
+ ->When the assigment is in different line, it wont work
+   Ex: var greeting;//here the type of 'greeting' is any not String as earlier
+       greeting = greet();
+	   
+=>Any and union types
+ ->Any type 
+   1.it is used to migrate JS code to TS
+     Ex: var a : any;
+         a=10;
+         a=true;
+         a='kalyan';
+ ->Any is loosely typed, you can assign any type of value to it. So if you want a variable to hold particular data types, then we have to use 'union'
+   Ex: var a : number | boolean;
+       a=10;
+       a=true;
+       a='kalyan'; //Type '"kalyan"' is not assignable to type 'number | boolean'
+	   
+=>Classes in TS
+ ->We can declare classes in TS
+   Ex: class person {
+        firstName;
+        lastName;
+        }
+       var aPerson = new person();
+       aPerson.firstName = 'Kalyan';
+       console.log(aPerson); // person { firstName: 'Kalyan' } gets printed
+ ->We can declare type for classes as well
+   Ex: var aPerson : Person = new Person();//aPerson is of type Person
+   Ex: var aPerson = new person(); //implicit typing even wihout giving type here
+   
+ ->Methods and Constructors
+   1.We can have methods inside the class
+    Ex: class Person {
+         firstName :string;
+         lastName : string;
+         getFullName(){
+           return this.firstName + this.lastName;
+          }
+         }
+   2.We have special method called constructor. Typcally in other programming languages constructor are getting define with same name as class.
+     Ex:     constructor(firstName:string, lastName:string){
+             this.firstName = firstName;
+             this.lastName = lastName;
+             }
+   3.We cannot have multiple constructors in TS.
+   
+=>Inheritance and Polymorphism
+ ->Inheritance is same as any other programming like java
+   Ex: class Person {
+       firstName :string;
+       lastName : string;
+       greet(){
+         console.log("Hey there");
+         }
+        }
+       lass Programmer extends Person{
+        }
+       var aProgrammer = new Programmer();
+       aProgrammer.greet();
+ ->use of 'super' keyword
+   Ex: class Person {
+        firstName :string;
+        lastName : string;
+        greet(){
+         console.log("Hey there");
+         }
+        }
+       class Programmer extends Person{
+       greet(){
+        console.log("Hey world");
+        }
+       greetLikeNormalPeople(){
+        super.greet();
+        }
+       }
+      var aProgrammer = new Programmer();
+      Programmer.greetLikeNormalPeople();
+ ->We can use super inside a constructor to call super class construtor
+ 
+=>Interfaces and duck typing
+ ->We can define interfaces
+   Ex: interface Person{
+        firstName : string;
+        lastName :string;
+        getFullName() :string;
+         }
+
+       class foo implements Person {
+       firstName: string;    
+       lastName: string;
+       getFullName(): string {
+          return this.firstName+" "+this.lastName;
+        }
+       }
+ ->Duck typing in TS. TS doesn't really enforces to implemet interface using class. Any object whose structure matches the interface can be  
+    assigned to interface reference.
+	Ex:  let aPerson : Person = new foo();//treditional way using polymorphism
+         var myObj = {
+         "firstName" : "Kalyan",
+         "lastName"  : "Vytla",
+         "getFullName" : function{
+          return this.firstName+" "+this.lastName;
+          }
+          }
+         aPerson = myObj; //duck typing using myObj
+
+=>Member visibility
+ ->There is no restriction like private in JS, so member variables can be accesed outside. But in TS we can do that.
+    Ex: class Person {
+        firstName :string;
+        private lastName : string;
+        getFullName() :string{
+        return this.firstName+" "+this.lastName;
+        }
+ ->We have to go for setters and getters to access private variables
+ ->We can use constructor like below to initialize private member variables.
+   Ex:   constructor(private firstName :string, private lastName : string){
+          }
+ ->We can use public, private, protected modifiers.
+ 
+=>'readonly' modifier
+ ->We can assign a modifier called readonly which makes variable only to read by others but not write.
+  Ex: class Person {
+       readonly name ;
+        }
+       var aPerson = new Person();
+       console.log(aPerson.name);
+       aPerson.name = 'Kalyan'; //Cannot assign to 'name' because it is a read-only property.
+ ->We can assign value to readonly property by two ways
+   1.Assign value inline.
+     Ex: readonly name = 'Kalyan';
+   2.Using constaructor(only once)
+     Ex:  constructor(name){
+           this.name = this.name;
+          }
+		  
+=>Enums
+ ->When u have a bunch of values and you want to read it enum is usable
+   Ex:  enum DaysOfTheWeek{
+          SUN, MON, TUE, WED, THU, FRI,SAT
+        }
+       let day : DaysOfTheWeek;
+       day = DaysOfTheWeek.MON;
+	   
+=>Generics
+ ->It is used to parameterize types
+   Ex: function echo(arg : any) : any{
+        return arguments;
+         }
+       var myStr : string =echo(1);// it works as TS allows it
+ ->To prevent this we use generics. We use place holders to mention type involved. 
+   Ex: function echo<T>(arg : T) : T{
+        return arg;
+        } 
+       var myStr : number =echo(1);
+	   
+=>Modules in TS
+ ->It lets you break source code into multiple files.
+ ->Each file can be treated as one modeule and elements of one module can be imported into another module.
+   Ex: 
+      classes.ts:
+                  export class Person {
+                  readonly name = 'Kalyan';
+                  constructor(name){
+                   this.name = this.name;
+                   }
+                  }	
+      generics.ts:
+                 import {Person} from './classes'   //it executes the classes file everytime we import it. Makes sure export the classes  
+				                                       stateless
+                  function echo<T>(arg : T) : T{
+                  return arg;
+                  }
+                  var myStr : number =echo(1);
+                  class Admin extends Person{   
+                  }	  
+				  
+=>Compiler arguments
+ ->We make use of some useful compiler arguments to make life easy
+   Ex-1: tsc test.ts --out output.js //here mentioning output js file name
+   Ex-2: tsc test.ts --out output.js --watch //watch changes for compilation
+   
+=>Using 'tsconfig' json file
+ ->TS has an option of specifying configuration file and gets all the info it needs.
+ -> To create tsconfig file use 'tsc --init' command
+ ->tsc to compile
+ -> strict": false //to disable compiler to run on strict mode 
+ ->outDir: "./out" /to mention location for output js files
+ ->"noEmitOnError": true //doesnt generate js files if occurs any error in compilation
+ 
+=>Creating an npm project
+ ->npm init to create a npm project
+ ->package.json gets generated which can be used for configuration
+ 
+=>Installing libraries and type defenitions
+ ->npm install lodash --save //registers into package.json
+ ->npm install @types/lodash --save-dev //installing type def for lodash
+ ->We can use lodash in the class 
+   Ex:  import {Person} from './test';
+        import * as _ from  'lodash';
+        let foo = new Person();
+        foo.firstName = 'Test';
+        foo.lastName = 'Lastname';
+        console.log(foo);
+        var array = [1,2,3,4];
+        console.log(_.reverse(array));
+		
+=>Setting up the project
+ -> npm init
+ ->tsc --init
+ ->"outDir": "./out" && "rootDir": "./src" //set these two in tsconfig.json
+ ->"start": "tsc && node out/index.js", //add this in package.json
+ 
+=>Installing dependencies
+ ->npm install @types/lodash @types/request --save-dev
+ ->npm install @types/lodash @types/request --save-dev
+ ->https://api.github.com/users/KalyanVytla //to fetch user info
+ ->https://api.github.com/users/KalyanVytla/repos //to fetch repos
