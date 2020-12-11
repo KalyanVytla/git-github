@@ -1,0 +1,246 @@
+===============================================================================================================================================
+zookeeper-server-start.bat ../../config/zookeeper.properties
+kafka-server-start.bat ../../config/server.properties
+
+kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 3 --partitions 2 --topic Kafka_Example
+
+
+kafka-topics.bat --list --zookeeper localhost:2181
+
+kafka-console-consumer.bat  --bootstrap-server localhost:9092 --topic Kafka_Example --from-beginning
+
+kafka-console-producer.bat --broker-list localhost:9092 --topic Kafka_Example
+
+
+===============================================================================================================================================
+
+=>Kafka Introduction
+ ->Open source
+  1.It was originally developed in Linkdin and later open sourced in 2011.
+  2.Since then it estalished itself as very popular tool for building real time date pipelines. Now it is securing its share in real time 
+    sharing applications as well. 
+  3.It is a distrubuted streaming platform.
+
+=>Distrubuted streaming platform
+ ->In a typical messaging system there are three components.
+   1.Producer or Publisher
+   2.Consumer
+   3.Broker
+ ->Producers are the client applications and they send some messages, brokers recieve messages from publishers and store these messages. 
+   Consumer reads message records from brokers.
+ ->Data integration is a challenge in a large enterprise applications. If they are many source systems and multiple destinations and we 
+   have to move data amoung these systems. Data pipeline is a mess without proper messaging system like kafka.
+ ->Linkdin has identified the problem and created Kafka.
+ 
+=>Kafka cluster
+ ->Kafka cluster is a bunch of brokers running in a group of computers. They take message records from producers and store it in kafka 
+   message log.
+ ->Consumer applications read messages from kafka cluster process it and do whatever they want to do. May be they send it to Hadoop, 
+   cassandra, Hbase or may be pushing back into kafka for someone else to read these modified messages.
+
+=What is Stream?
+ ->A continuous flow of data or Constant stream of messages.
+ ->Kafka is so powerful in terms of throughput and scalability that it allows you to handle continouous stream of messages.
+ ->So if you can plugin some stream processing framework to kafka, it could be your backbone infrastructure to create a realtime stream 
+   processing applications.
+ ->Stream processing applications they read continuous stream of data from kafka, process them and then either store them back in kafka or 
+   send them directly to other systems.
+  
+  
+=>Kafka API
+ ->Kafka provides some stream processing APIs as well. We can do a lot of things using kafka stream processing APIs. Or we can use any other 
+   stream processing APIs like Spark streaming or Storm.
+
+=>Kafka Connectors
+ ->These are very powerful features.
+ ->There are ready to use connectors to import data from database to kafka or export data from kafka to database. These are not just out of the
+   box connectors but also a framework to build specialized connectors for any other application.
+   
+=>Summary
+ ->Kafka is a distrubuted streaming platform.
+ ->What it can do 
+   1.It can be used as an enterprise messaging system.
+   2.It can be used for stream processing.
+   3.It also privides connectors to import and export bulk data from databases and other systems.
+ ->Implementing above things is not that easy as there are no plug and play components. We have to make use of API to do that.
+
+=>Core Concepts
+ ->We use below terms extensively in Kafka 
+   1.Producer
+   2.Consumer
+   3.Broker
+   4.Cluster
+   5.Topic
+   6.Partitions
+   7.Offset
+   8.Consumer Groups
+
+=>Starting Kafka
+ ->Below commands are used to start zookeeper and kafka respectively. Since kafka uses zookeeper.
+       zookeeper-server-start.bat ../../config/zookeeper.properties
+       kafka-server-start.bat ../../config/server.properties
+	   
+=>Zookeper
+ ->Zookeper is an open source project that came out from hadoop project.
+ ->Zookeper is used to provide cordination services between distrubuted systems. Since kafka is a distrubuted system and we have multiple 
+   brokers so we need a system to cordinate multiple things amoung these brokers. That's why we need zookeeper.
+ ->So before starting kafka we need to start zookeeper. By default it will start at port number 2181.
+
+=>Create a kafka topic
+ ->By default kafka will create a topic automatically so when a producer sends data to a non existent topic, kafka will create the topic and 
+   accept the message.
+ ->Lets create the topic using topic management tool "kafka-topics.bat". Topic management tool provides so many functionalities here we are 
+   using to create a topic.
+   Ex:  kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic MyFirstTopic
+ ->Here we are creating two partitions on this topic, we might wounder how come we create two partitions if we have only one broker. That's  
+   not a problem, kafka tries to distrubute partitions evenly over the available brokers.
+ ->But in our case we just have a single broker, so kafka doesnt have any options other than creating both partitions on the same machine.
+ ->Below command gives the list of topics present in the server.
+   Ex: kafka-topics.bat --list --zookeeper localhost:2181
+
+=>Play around kafka
+ ->Lets create a console-producer in one terminal and console-consumer in another terminal, then we will send some message from producer they 
+   should appear at consumer.
+ ->The below command is used to send message using console-producer.
+   Ex: kafka-console-producer.bat --broker-list localhost:9092 --topic MyFirstTopic
+ ->To send a message to kafka we need broker address, that's why the first parameter(broker running on port 9092).
+ ->Below command is used to run console-consumer.
+   Ex: kafka-console-consumer.bat  --bootstrap-server localhost:9092 --topic MyFirstTopic
+       kafka-console-consumer.bat  --bootstrap-server localhost:9092 --topic Kafka_Example --from-beginning  //to read messages from start
+ ->In realtime scenarios there is no use of console-consumer and console-producer other than simple testing.
+ 
+=>Fault Tolerance
+ ->We learnt that kafka is a distrubuted system and it works on cluster of computers.
+ ->Most of the times kafka will spread your data in partitions over various systems in the cluster. If one or two systems in the cluster fail 
+   what will happen to your data, will you be able to read it?no. that's a fault. Can we tolerate it?
+ ->The term fault tolerance is very common in disrubuted systems. It means making your data available even in case of some failure.
+ ->Enabling a system to continue operating properly in the event of failure of some of its components.
+ ->One simple solution is to make multiple copies of data and keep it on seperate systems. 
+ ->So if you have three copies of a partition and kafka stores them on three different machines, you should be able to avoid two failures. 
+   Since we have three copies on three different systems, if two of them failes we can still read your data from the third system.
+ ->There is a particular term used for making multiple copies, we call it replication factor. So if we say replication factor is 3, that 
+   means we are maintaining three copies of partitions. 
+ ->Three is a resonanble number to set replication-factor. Even we can set it to higher if the data is super critical or you are using cheap 
+   machines.
+ ->So kafka implements fault tolerance by applying replication factor to partitions
+ ->We can define replication factor at the topic level. So we dont set replication-factor of partitions. We set it for a topic, it applies to 
+   all partitions within a topic.
+ ->Kafka implements Leader-Follower model.So every partition one broker has been elected as a leader and leader takes care of all client 
+   interactions. What does that mean?
+    1.That means when producer is willing to send some data, it connects to leader and starts sending data. It is leader's responsibility to 
+	  recieve the message and store it in local disk and send back and acknowledgement to the producer.
+	2.Similarly when a consumer is willing to read data it sends request to the leader. It is leader's responsibility to send back requested 
+	  data to consumer.
+	3.For every partition we have a leader and leader takes care of all requests and responses.
+	4.In all of this we haven't made a copy!
+	5.That's where follower comes into the picture. So if we create a topic with replication factor set to 3, a ledaer of the topic is  
+	  already maintaining the first copy. We need two more copies.
+	6.Kafka will identify two more brokers as a followers to make those two copies. These followers copy data from the leader. They don't tal 
+	  to producer or consumer, They just copy data from a leader.
+ ->We need a 3 node kafka cluster to demonstrate one leader and 2 follower model. In an ideal cluster we install one broker on one computer. 
+   But for development puprpose we can start multiple brokers on a single machine.
+   Ex:  kafka-server-start.bat ../../config/server.properties 
+        kafka-server-start.bat ../../config/server-1.properties
+        kafka-server-start.bat ../../config/server-2.properties
+ ->We need change 3 properties in server properties file before starting the server.
+   Ex: broker.id=1
+       listeners=PLAINTEXT://:9093
+	   log.dirs=C:/Users/1602582/tmp/kafka-logs-1
+ ->Now we will create a topic with replication factor as 3.
+   Ex; kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 3 --partitions 2 --topic Kafka_Replica_Example
+ ->Below command can be used to descibe a topic
+   Ex; kafka-topics.bat --zookeeper localhost:2181 --describe --topic MyFirstTopic
+ ->We get to display below details when we use describe command.
+   Ex: Topic:Kafka_Replica_Example     PartitionCount:2        ReplicationFactor:3     Configs:
+            Topic: Kafka_Replica_Example    Partition: 0    Leader: 2       Replicas: 2,0,1 Isr: 2,0,1
+			Topic: Kafka_Replica_Example    Partition: 1    Leader: 0       Replicas: 0,1,2 Isr: 0,1,2
+ ->'Isr' means In Sync Replicas
+ 
+=>Broker configurations
+ ->Kafka is highly configurable system and it provides many configurable parameters. Most of them have a reasonable defaults. So we dont need 
+   to worry about all of them.
+ ->We have already used some of the properties like broker.id,listeners,log.dirs.
+ ->Below are the some more important list of parameters.
+   1.broker.id
+   2.port
+   3.log.dirs
+   4.zookeeper.connect
+   5.delete.topic.enable
+   6.auto.create.topics.enable
+   7.default.replication.factor
+   8.num.partitions
+   9.log.retention.ms
+   10.log.retention.bytes
+ ->zookeeper.connect
+   1.This parameter takes zookeeper connection string. The connection string is host name and port number. We know that kafka uses zookeeper
+   2.This parameter is also necessary to form a cluster.What does it means? Well all brokers are running on different systems how do they 
+     know each other.If they dont know about each other they are not part of the cluster. The zookeeper is connecting link amoung brokers to form a cluster.
+ ->delete.topic.enable
+  1.If you want to delete a topic you can use topic management tool to delete a topic. But by default deleting a topic is not allowed.
+  2.You can delete a topic because default value of this parameter is false.That's a reasonable protection for production environment.But in  
+    a development or a testing environment you may want to delete a topic.
+  3.So if you want kafka to allow deleting a topic you need to set this parameter to "true".
+ ->auto.create.topics.enable
+  1.If a producer starts sending messages to a non existing topic kafka creates that topic and starts accepting the data. This behaviour is 
+    suitable for dev environment. But in prod you may want more controlled approach.
+  2.If you setr this paramter false kafka stop creating topic automatically. You can create topic using topic management tool and set this 
+    parameter to false.
+  3.Then nobody will be able to send data to a non-existent topic.
+ ->default.replication.factor and num.partitions
+  1.These two parameters are quite straight forward. The default values for them is 1 and they are effective when you have auto create topics 
+    enabled.
+  2.If kafka is creating a topic automatically the new topic will have one partition and single copy.If you want some other values you can 
+    change default settings accordingly.
+ ->"log.retention.ms" and "log.retention.bytes"
+  1.These two are very critical.So whatever data you send to kafka, it is not retained by kafka forever.Kafka is not a database.We dont send 
+    data data to kafka to store it so that we can query it later.
+  2.It is a message broker, it should deliver messages to consumer and then clean it up.There is no reason to retain messages longer than 
+    needed.
+  3.Kafka gives you two options to configure retention period. The default option is retention by time and default value is 7 days.
+  4.Kafka clean-up all the messages older than 7 days. If you want to change the duration we can change the value using "log.retention.ms".
+  5.Kafka gives you another option to define the retention period.You can specify it by size.That's where the second parameter 
+    "log.retention.bytes" is applicable.But the size applies to partition.
+  6.If we set log.retention.bytes=1GB kafka will trigger a clean-up activity when the size reachs 1GB.Remember that its not a topic size, its 
+    a partition size.
+  7.If we maintain both of these clean-up will start on meeting any of these criteria.
+  
+=>Kafka API
+ ->We can classify kafka APIs into two parts.
+   1.Producer APIs
+   2.Consumer APIs
+   
+=>Producer API
+ ->We can use kafka in several ways
+   1.To solve complex data integration problems
+   2.To create a series of validations & transformations and build complex data pipelines.
+   3.Can be used to log transactions and create applications respond in real time.
+   4.Can be used to collect data from a mobile phones, IOT applications.
+ ->It is all about asynchronous communication. We need a producer to send data to kafka.
+ ->The most common method to create kafka producer is kafka's API.Since core APIs are available in java.
+    Ex:  public class SimpleProducer {
+
+	         public static void main(String[] args) {
+		       String topicName  = "Kafka_Replica_Example";
+		       String key = "Key1";
+		       String value = "Value-1";
+		       Properties props = new Properties();
+		       props.put("bootstrap.servers", "localhost:9092,localhost:9093,localhost:9094");
+		       props.put("key.serializer","org.apache.kafka.common.serialization.StringSerializer");
+		       props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+		       Producer<String, String> producer = new KafkaProducer <>(props);
+		       ProducerRecord<String, String> record = new ProducerRecord<>(topicName,key,value);
+		       producer.send(record);
+		       producer.close();
+		       System.out.println("SimpleProducer Completed.");
+		  
+	         }
+         }
+ ->Kafka accepts only an array of bytes.WE need a class to convert our message key and value into bytes. That's the reason we use property 
+   "key.serializer".Converting java objects into array of bytes is called serialization. In the above case we used "StringSerializer" class.
+ ->Kafka uses other serializer classes like "IntSerializer" and "DoubleSerializer".
+ ->We define these three mandatory configurations and package them in Properties object.
+ ->Kafka comes with default partiotioner. This partiotioner will use message key to determine the partition number.If you are sending 
+   thousands of messages with same message key, they all will land in same partition.
+ ->But we know that message key is optional. So if we dont send a message key the default partiotioner will evenly distrubutes the messages 
+   across the partitions
+ ->If we mention partion number in  ProducerRecord then default partiotioner is disabled.
